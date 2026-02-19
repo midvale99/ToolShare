@@ -106,7 +106,7 @@ body {
 .list { display: grid; gap: 10px; margin-top: 12px; }
 
 .item {
-  background: rgba(16, 26, 46, 0.6);
+  background: rgba(90, 105, 140, 0.35);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 12px;
