@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b5fff" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <title>Neighbour Tool Share Board</title>
+
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar__title">
+        <div class="topbar__name">Neighbour Tool Share</div>
+        <div class="topbar__subtitle" id="statusText">Getting your location…</div>
+      </div>
+      <button class="btn btn--primary" id="newListingBtn" type="button">+ Tool</button>
+    </header>
+
+    <main class="container">
+      <section class="card card--notice" id="installHint" hidden>
+        <div class="card__title">Install on iPhone</div>
+        <div class="muted">
+          In Safari: Share → <b>Add to Home Screen</b>.
+        </div>
+      </section>
+
+      <section class="tabs">
+        <button class="tab tab--active" id="tabBoard" type="button">Offered</button>
+        <button class="tab" id="tabMessages" type="button">Wanted</button>
+        <button class="tab" id="tabProfile" type="button">Profile</button>
+      </section>
+
+      <section id="viewBoard">
+        <div class="card">
+          <div class="row row--space">
+            <div>
+              <div class="card__title">Nearby tools</div>
+              <div class="muted">Only within <b>200m</b> of you.</div>
+            </div>
+            <button class="btn" id="refreshBtn" type="button">Refresh</button>
+          </div>
+          <div class="search-row">
+            <input class="input" id="searchInput" type="text" placeholder="Search for a tool…" />
+            <button class="btn btn--primary" id="searchBtn" type="button">Search</button>
+          </div>
+        </div>
+
+        <div class="list" id="listingList"></div>
+        <div class="empty" id="listingEmpty" hidden>No tools nearby yet. Post the first one.</div>
+      </section>
+
+      <section id="viewMessages" hidden>
+        <div class="card">
+          <div class="card__title">Wanted</div>
+          <div class="muted">Each borrow request has its own chat.</div>
+        </div>
+        <div class="list" id="requestList"></div>
+        <div class="empty" id="requestEmpty" hidden>No requests yet.</div>
+      </section>
+
+      <section id="viewProfile" hidden>
+        <div class="card">
+          <div class="card__title">Your profile</div>
+          <div class="muted">Stored only on this phone for now.</div>
+          <div class="spacer"></div>
+          <label class="label">Display name</label>
+          <input class="input" id="profileName" placeholder="e.g. Sam" />
+          <div class="spacer"></div>
+          <label class="label">Street (optional)</label>
+          <input class="input" id="profileStreet" placeholder="e.g. Oak Street" />
+          <div class="spacer"></div>
+          <button class="btn btn--primary" id="saveProfileBtn" type="button">Save</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modals -->
+    <dialog class="modal" id="modalNewListing">
+      <form method="dialog" class="modal__inner" id="newListingForm">
+        <div class="modal__header">
+          <div class="modal__title">New tool listing</div>
+          <button class="iconbtn" value="cancel" aria-label="Close">✕</button>
+        </div>
+
+        <label class="label">Title</label>
+        <input class="input" id="listingTitle" required placeholder="e.g. Ladder" />
+
+        <label class="label">Category</label>
+        <input class="input" id="listingCategory" required placeholder="e.g. ladder, drill" />
+
+        <label class="label">Description</label>
+        <textarea class="input" id="listingDescription" rows="3" placeholder="Short details…"></textarea>
+
+        <label class="label">Photo (optional)</label>
+        <input class="input" id="listingPhoto" type="file" accept="image/*" />
+
+        <div class="row row--space">
+          <button class="btn" value="cancel" type="button" id="cancelNewListingBtn">Cancel</button>
+          <button class="btn btn--primary" type="submit">Post</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="modalListingDetail">
+      <form method="dialog" class="modal__inner" id="listingDetailForm">
+        <div class="modal__header">
+          <div class="modal__title" id="detailTitle">Tool</div>
+          <button class="iconbtn" value="cancel" aria-label="Close">✕</button>
+        </div>
+
+        <div class="pillrow">
+          <span class="pill" id="detailCategory"></span>
+          <span class="pill pill--muted" id="detailDistance"></span>
+        </div>
+
+        <div class="detail__photo" id="detailPhotoWrap" hidden>
+          <img id="detailPhoto" alt="Tool photo" />
+        </div>
+
+        <div class="detail__desc" id="detailDescription"></div>
+
+        <div class="spacer"></div>
+        <label class="label">Request note to owner</label>
+        <textarea class="input" id="requestNote" rows="3" placeholder="e.g. Can I borrow this tonight?"></textarea>
+
+        <div class="row row--space">
+          <button class="btn" value="cancel" type="button" id="closeDetailBtn">Close</button>
+          <button class="btn btn--primary" type="button" id="sendRequestBtn">Request</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="modalChat">
+      <form method="dialog" class="modal__inner modal__inner--tall" id="chatForm">
+        <div class="modal__header">
+          <div class="modal__title" id="chatTitle">Chat</div>
+          <button class="iconbtn" value="cancel" aria-label="Close">✕</button>
+        </div>
+
+        <div class="chat" id="chatMessages"></div>
+
+        <div class="row">
+          <input class="input" id="chatInput" placeholder="Message…" />
+          <button class="btn btn--primary" type="button" id="chatSendBtn">Send</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
+

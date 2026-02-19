@@ -1,0 +1,11 @@
+{
+  "name": "Neighbour Tool Share",
+  "short_name": "Tool Share",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0b1220",
+  "theme_color": "#0b5fff",
+  "description": "Hyper-local tool lend/borrow within 200m.",
+  "icons": []
+}
+
